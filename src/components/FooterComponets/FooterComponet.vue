@@ -1,6 +1,6 @@
 <script></script>
 <template>
-  <p>footer</p>
+  <p class="text-primary">footer</p>
 </template>
 <style scoped>
 
