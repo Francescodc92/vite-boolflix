@@ -33,7 +33,10 @@ export default {
 <template>
 
   <div class="ms-card position-relative">
-    <img :src="formatSrcImage" :alt="movieObj.title || movieObj.name">
+    <img :src="formatSrcImage" v-if="movieObj.poster_path != null" :alt="movieObj.title || movieObj.name">
+    <div class="no-img" v-else>
+      nessuna immagine 
+    </div>
     <div class="info position-absolute top-0 start-0">
       <ul class="mt-3 list-unstyled">
         <li>{{ movieObj.title || movieObj.name  }}</li>
@@ -57,6 +60,18 @@ export default {
     width: 100%;
     height:100% ;
     object-fit: cover;
+  }
+  .no-img{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.8);
+    border: 1px solid #ccc;
+    color:#fff; 
+    font-size: 16px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &:hover .info{
