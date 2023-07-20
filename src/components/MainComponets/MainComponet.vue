@@ -5,18 +5,31 @@ export default {
     return {
       store
     }
+  },
+  methods:{
+    iconClass(language){
+      if(language == 'en'){
+        language = 'us'
+      }else if(language == 'ja'){
+        language = 'jp'
+      }
+      const iconClass = 'fi ' + 'fi-' + language
+
+      return iconClass
+    }
   }
 }
 </script>
 <template>
- <input type="text" v-model="store.requestUserInput">
- <button @click="$emit('searchMovie')" >cerca</button>
  <ul>
   <li v-for="(movie, index) in store.moviesArray" :key="index">
     <ul class="mt-3">
       <li>titolo: {{ movie.title }}</li>
       <li>titolo originale: {{ movie.original_title }}</li>
-      <li>lingua: {{ movie.original_language }}</li>
+      <li>
+        lingua:
+         <span :class="iconClass(movie.original_language)"></span>
+      </li>
       <li>voto: {{ movie.vote_average }}</li>
     </ul>
   </li>
