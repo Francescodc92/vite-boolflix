@@ -5,7 +5,8 @@ export default{
      return {
        store
      }
-   }
+   },
+   emits: ['searchMovie']
 }
 </script>
 <template>

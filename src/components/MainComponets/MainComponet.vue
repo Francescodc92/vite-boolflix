@@ -1,5 +1,6 @@
 <script>
 import { store } from '../../store.js'
+import InfoListComponet from './InfoListComponet.vue'
 export default {
   data(){
     return {
@@ -17,21 +18,23 @@ export default {
 
       return iconClass
     }
+  },
+  components:{
+    InfoListComponet
   }
 }
 </script>
 <template>
+  <h2>movies</h2>
  <ul>
   <li v-for="(movie, index) in store.moviesArray" :key="index">
-    <ul class="mt-3">
-      <li>titolo: {{ movie.title }}</li>
-      <li>titolo originale: {{ movie.original_title }}</li>
-      <li>
-        lingua:
-         <span :class="iconClass(movie.original_language)"></span>
-      </li>
-      <li>voto: {{ movie.vote_average }}</li>
-    </ul>
+    <InfoListComponet :movieObj="movie" />
+  </li>
+ </ul>
+ <h2>series</h2>
+ <ul>
+  <li v-for="(serie, index) in store.seriesArray" :key="index">
+    <InfoListComponet :movieObj="serie" />
   </li>
  </ul>
 </template>

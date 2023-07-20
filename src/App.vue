@@ -35,28 +35,13 @@
         }
         })
         .then(res =>{
-          this.formatData(res.data.results).forEach(element => {
-            this.store.moviesArray.push(element)
-          })
+          this.store.seriesArray = res.data.results
         });
       },
       formatInputUser(userInput){
         const formattedInput =  userInput.replace(/\s/g  , '+')
         return formattedInput
       },
-      formatData(data){
-        const newArray = []
-        data.forEach(element => {
-          
-          const newObject = {
-            ...element,
-            title:element.name,
-            original_title:element.original_name
-          }
-          newArray.push(newObject)
-        });
-        return newArray
-      }
     }
   }
 
