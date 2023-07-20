@@ -25,19 +25,34 @@ export default {
 }
 </script>
 <template>
-  <h2>movies</h2>
- <ul>
-  <li v-for="(movie, index) in store.moviesArray" :key="index">
-    <InfoListComponet :movieObj="movie" />
-  </li>
- </ul>
- <h2>series</h2>
- <ul>
-  <li v-for="(serie, index) in store.seriesArray" :key="index">
-    <InfoListComponet :movieObj="serie" />
-  </li>
- </ul>
+  <main class="pb-3">
+    <div class="container-fluid">
+      <h2 v-if="store.moviesArray.length > 0" class="text-uppercase py-5">movies</h2>
+      <div class="row px-2 row-gap-3">
+        <div class="col-12 col-sm-6 col-md-3  col-lg-2" v-for="(movie, index) in store.moviesArray" :key="index">
+          <InfoListComponet :movieObj="movie" />
+        </div>
+      </div>
+    
+     <h2 v-if="store.seriesArray.length > 0" class="text-uppercase py-5">series</h2>
+     <div class="row px-2 row-gap-3">
+        <div class="col-12 col-sm-6 col-md-3  col-lg-2" v-for="(serie, index) in store.seriesArray" :key="index">
+          <InfoListComponet :movieObj="serie" />
+        </div>
+      </div>
+    </div>
+  </main>
 </template>
-<style scoped>
-
+<style lang="scss" scoped>
+@use "../../assets/scss/main.scss" as *;
+@use "../../assets/scss/partials/variables.scss" as *;
+main{
+  min-height: calc(100vh - $header-height);
+  background-color: black;
+  background-image: url(../../assets/img/netflix-icon.avif);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center top;
+  color: #fff;
+}
 </style>

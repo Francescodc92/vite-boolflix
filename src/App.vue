@@ -1,7 +1,6 @@
 <script>
   import HeaderComponet from './components/HeaderComponets/HeaderComponet.vue';
   import MainComponet from './components/MainComponets/MainComponet.vue';
-  import FooterComponet from './components/FooterComponets/FooterComponet.vue';
   import { store } from './store.js'
   import axios from 'axios';
   export default{
@@ -13,7 +12,6 @@
     components:{
       HeaderComponet,
       MainComponet,
-      FooterComponet
     },
     methods:{
       getData(){
@@ -50,7 +48,6 @@
 <template>
   <HeaderComponet  @searchMovie="getData()"/>
   <MainComponet/>
-  <FooterComponet/>
 </template>
 
 <style lang="scss">
