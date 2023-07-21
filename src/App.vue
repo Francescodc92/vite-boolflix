@@ -15,25 +15,48 @@
     },
     methods:{
       getData(){
+        //get movies
+        this.store.moviesArray = []
+        this.store.seriesArray = []
         axios.get(`https://api.themoviedb.org/3/search/movie`, {
           params:{
             api_key: this.store.requestKey,
             query:this.formatInputUser(this.store.requestUserInput)
-
           }
         })
         .then(res =>{
           this.store.moviesArray = res.data.results
         });
+        
+        //get genres movies
+        axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
+          params:{
+            api_key: this.store.requestKey,
+          }
+        })
+        .then(res =>{
+          this.store.genresMovieArray = res.data.genres
+        });
+        
+        //get series
         axios.get(`https://api.themoviedb.org/3/search/tv`, {
         params:{
           api_key: this.store.requestKey,
           query:this.formatInputUser(this.store.requestUserInput)
-
         }
         })
         .then(res =>{
           this.store.seriesArray = res.data.results
+        });
+        
+        //get genres series
+        axios.get(`https://api.themoviedb.org/3/genre/tv/list`, {
+          params:{
+            api_key: this.store.requestKey,
+          }
+        })
+        .then(res =>{
+          this.store.genresSeriesArray = res.data.genres
         });
       },
       formatInputUser(userInput){

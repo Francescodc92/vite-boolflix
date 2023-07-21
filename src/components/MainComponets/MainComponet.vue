@@ -30,14 +30,14 @@ export default {
       <h2 v-if="store.moviesArray.length > 0" class="text-uppercase py-5">movies</h2>
       <div class="row px-2 row-gap-3">
         <div class="col-12 col-sm-6 col-md-3  col-lg-2" v-for="(movie, index) in store.moviesArray" :key="index">
-          <InfoListComponet :movieObj="movie" />
+          <InfoListComponet :movieObj="movie" :typeElement="'movie'" />
         </div>
       </div>
     
      <h2 v-if="store.seriesArray.length > 0" class="text-uppercase py-5">series</h2>
      <div class="row px-2 row-gap-3">
         <div class="col-12 col-sm-6 col-md-3  col-lg-2" v-for="(serie, index) in store.seriesArray" :key="index">
-          <InfoListComponet :movieObj="serie" />
+          <InfoListComponet :movieObj="serie" :typeElement="'serie'" />
         </div>
       </div>
     </div>
@@ -50,6 +50,7 @@ main{
   min-height: calc(100vh - $header-height);
   background-color: black;
   background-image: url(../../assets/img/netflix-icon.avif);
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center top;

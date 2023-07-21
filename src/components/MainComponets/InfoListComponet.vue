@@ -1,10 +1,50 @@
 <script>
+import { store } from '../../store';
+import axios from 'axios';
+import ModalComponet from './ModalComponet.vue';
 export default {
   props:{
     movieObj:{
       type:Object,
       default:{}
+    },
+    typeElement:{
+      type:String,
+      default: ""
     }
+  },
+  components:{
+    ModalComponet
+  },
+  data(){
+    return{
+      store,
+      newMovieObj : {
+        ...this.movieObj,
+        moreInfo:false,
+      }
+    }
+  },
+  methods:{
+    getMoreData(){
+      axios.get(`https://api.themoviedb.org/3/movie/${this.newMovieObj.id}/credits`, {
+        params:{
+          api_key: this.store.requestKey,
+        }
+      })
+      .then(res =>{
+        this.store.actorsArray = []
+        res.data.cast.forEach((element, index) => {
+          if(index < 5){
+            this.store.actorsArray.push(element)
+          }
+        });
+      });
+    },
+    openInfoModal(){
+      this.newMovieObj.moreInfo = !this.newMovieObj.moreInfo ,
+      this.getMoreData()
+    },
   },
   computed:{
     iconClass(){
@@ -24,32 +64,46 @@ export default {
       return imageSrc
     },
     formatVote(){
-      let formattedVote = Math.floor(Math.round(this.movieObj.vote_average) / 2) >= 0 ? Math.floor(Math.round(this.movieObj.vote_average) / 2) : 0;
+      let formattedVote = Math.ceil(this.movieObj.vote_average / 2);
+
       return formattedVote
-    }
+    },
   }
 }
 </script>
 <template>
-
   <div class="ms-card position-relative">
-    <img :src="formatSrcImage" v-if="movieObj.poster_path != null" :alt="movieObj.title || movieObj.name">
+    <img :src="formatSrcImage" v-if="newMovieObj.poster_path != null" :alt="newMovieObj.title || newMovieObj.name">
     <div class="no-img" v-else>
       nessuna immagine 
     </div>
     <div class="info position-absolute top-0 start-0">
       <ul class="mt-3 list-unstyled">
-        <li>{{ movieObj.title || movieObj.name  }}</li>
-        <li>{{ movieObj.original_title || movieObj.original_name}}</li>
         <li>
+          <p class="m-0 text-danger fw-bold text-capitalize ">titolo:</p>
+          {{ newMovieObj.title || newMovieObj.name  }}
+        </li>
+        <li>
+          <p class="m-0 text-danger fw-bold text-capitalize ">Lingua originale:</p>
           <span :class="iconClass"></span>
         </li>
         <li>
+          <p class="m-0 text-danger fw-bold text-capitalize ">Valutazione:</p>
           <font-awesome-icon v-for=" index in 5" :key="index" icon="fa-solid fa-star" :class="index <= formatVote ? 'text-warning' : ''"/>
         </li>
       </ul>
+      <button class="btn btn-primary" @click="openInfoModal()">
+        more info
+      </button>
     </div>
   </div>
+
+  <ModalComponet 
+  :movieObj="movieObj" 
+  :typeElement="typeElement"
+  v-if="newMovieObj.moreInfo"
+  @close="newMovieObj.moreInfo = false"
+  />
 </template>
 <style lang="scss" scoped>
 .ms-card{
@@ -87,6 +141,7 @@ export default {
     opacity: 0;
     visibility: hidden;
     transition: opacity 200ms ease-in-out;
+    
     ul{
       li{
         margin-top:10px ;
@@ -94,5 +149,4 @@ export default {
     }
   }
 }
-
 </style>
