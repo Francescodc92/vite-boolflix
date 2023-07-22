@@ -25,7 +25,7 @@ export default {
 }
 </script>
 <template>
-  <main class="pb-3">
+  <main class="pb-3" :class="store.modalIsOpen ? 'modal-active' : ''">
     <div class="container-fluid">
       <h2 v-if="store.moviesArray.length > 0" class="text-uppercase py-5">movies</h2>
       <div class="row px-2 row-gap-3">
@@ -53,7 +53,12 @@ main{
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: contain;
-  background-position: center top;
+  background-position: center;
   color: #fff;
+  &.modal-active{
+    height: calc(100vh - $header-height);
+    overflow: hidden;
+  }
+
 }
 </style>

@@ -3,6 +3,7 @@
   import MainComponet from './components/MainComponets/MainComponet.vue';
   import { store } from './store.js'
   import axios from 'axios';
+import { resolveDirective } from 'vue';
   export default{
     data(){
       return {
@@ -27,17 +28,7 @@
         .then(res =>{
           this.store.moviesArray = res.data.results
         });
-        
-        //get genres movies
-        axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
-          params:{
-            api_key: this.store.requestKey,
-          }
-        })
-        .then(res =>{
-          this.store.genresMovieArray = res.data.genres
-        });
-        
+                
         //get series
         axios.get(`https://api.themoviedb.org/3/search/tv`, {
         params:{
@@ -49,7 +40,51 @@
           this.store.seriesArray = res.data.results
         });
         
-        //get genres series
+
+      },
+      formatInputUser(userInput){
+        const formattedInput =  userInput.replace(/\s/g  , '+')
+        return formattedInput
+      },
+      getDataSelect(){
+        //get movies
+        this.store.moviesArray = []
+        this.store.seriesArray = []
+        this.store.requestUserInput = ""
+        axios.get(`https://api.themoviedb.org/3/discover/movie`, {
+        params:{
+          api_key: this.store.requestKey,
+          with_genres:this.store.currentSelectedGenre
+        }
+        })
+        .then(res =>{
+          this.store.moviesArray = res.data.results
+        });
+
+        axios.get(`https://api.themoviedb.org/3/discover/tv`, {
+        params:{
+          api_key: this.store.requestKey,
+          with_genres:this.store.currentSelectedGenre
+        }
+        })
+        .then(res =>{
+          this.store.seriesArray = res.data.results
+        });
+         
+      }
+    },
+    mounted(){
+        //get genres movies
+        axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
+          params:{
+            api_key: this.store.requestKey,
+          }
+        })
+        .then(res =>{
+          this.store.genresMovieArray = res.data.genres
+        });
+
+                //get genres series
         axios.get(`https://api.themoviedb.org/3/genre/tv/list`, {
           params:{
             api_key: this.store.requestKey,
@@ -58,22 +93,19 @@
         .then(res =>{
           this.store.genresSeriesArray = res.data.genres
         });
-      },
-      formatInputUser(userInput){
-        const formattedInput =  userInput.replace(/\s/g  , '+')
-        return formattedInput
-      },
-    }
+        
+      }
   }
 
 </script>
 
-<template>
-  <HeaderComponet  @searchMovie="getData()"/>
+<template >
+  <HeaderComponet  @searchMovie="getData()" @selectCategorie="getDataSelect()"/>
   <MainComponet/>
 </template>
 
 <style lang="scss">
 @use "./assets/scss/main.scss" as *;
 @use "./assets/scss/partials/variables.scss" as *;
+  
 </style>

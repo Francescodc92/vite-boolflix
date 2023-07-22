@@ -42,9 +42,14 @@ export default {
       });
     },
     openInfoModal(){
-      this.newMovieObj.moreInfo = !this.newMovieObj.moreInfo ,
+      this.newMovieObj.moreInfo = !this.newMovieObj.moreInfo;
+      this.store.modalIsOpen = true;
       this.getMoreData()
     },
+    closeInfoModal(){
+      this.newMovieObj.moreInfo = false;
+      this.store.modalIsOpen = false;
+    }
   },
   computed:{
     iconClass(){
@@ -102,11 +107,12 @@ export default {
   :movieObj="movieObj" 
   :typeElement="typeElement"
   v-if="newMovieObj.moreInfo"
-  @close="newMovieObj.moreInfo = false"
+  @close="closeInfoModal()"
   />
 </template>
 <style lang="scss" scoped>
 .ms-card{
+  border: 1px solid #ccc;
   height: 330px;
   width: 100%;
   cursor: pointer;
@@ -119,7 +125,6 @@ export default {
     height: 100%;
     width: 100%;
     background-color: rgba(0,0,0,0.8);
-    border: 1px solid #ccc;
     color:#fff; 
     font-size: 16px;
     text-transform: uppercase;
