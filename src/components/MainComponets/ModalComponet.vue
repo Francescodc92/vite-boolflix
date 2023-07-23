@@ -17,7 +17,7 @@ export default {
       store,
     }
   },
-    methods:{
+  methods:{
     getGenresMovies(){
       let genresMovie = []
       if(this.typeElement == 'movie'){
@@ -106,8 +106,8 @@ export default {
             Cast:
           </p>
           <ul class="actors list-unstyled">
-            <li class="mb-2 " v-for="(actor, index) in movieObj.actorsArray" :key="index">
-              - {{actor.name}}
+            <li class="mb-2 " v-for="(actor, index) in store.actorsArray" :key="index">
+              - {{ actor.name }}
             </li>        
           </ul>
         </li>

@@ -19,6 +19,9 @@ import { resolveDirective } from 'vue';
         //get movies
         this.store.moviesArray = []
         this.store.seriesArray = []
+        this.store.currentSelectedGenre = ''
+        this.store.responseNumberMovie = 0
+        this.store.responseNumberSeries = 0
         axios.get(`https://api.themoviedb.org/3/search/movie`, {
           params:{
             api_key: this.store.requestKey,
@@ -27,6 +30,7 @@ import { resolveDirective } from 'vue';
         })
         .then(res =>{
           this.store.moviesArray = res.data.results
+          this.store.responseNumberMovie = res.data.results.length
         });
                 
         //get series
@@ -38,6 +42,7 @@ import { resolveDirective } from 'vue';
         })
         .then(res =>{
           this.store.seriesArray = res.data.results
+          this.store.responseNumberSeries = res.data.results.length
         });
         
 
@@ -51,6 +56,8 @@ import { resolveDirective } from 'vue';
         this.store.moviesArray = []
         this.store.seriesArray = []
         this.store.requestUserInput = ""
+        this.store.responseNumberMovie = 0
+        this.store.responseNumberSeries = 0
         axios.get(`https://api.themoviedb.org/3/discover/movie`, {
         params:{
           api_key: this.store.requestKey,
@@ -59,6 +66,7 @@ import { resolveDirective } from 'vue';
         })
         .then(res =>{
           this.store.moviesArray = res.data.results
+          this.store.responseNumberMovie = res.data.results.length
         });
 
         axios.get(`https://api.themoviedb.org/3/discover/tv`, {
@@ -69,11 +77,14 @@ import { resolveDirective } from 'vue';
         })
         .then(res =>{
           this.store.seriesArray = res.data.results
+          this.store.responseNumberSeries = res.data.results.length
         });
          
       }
     },
     mounted(){
+        this.store.responseNumberMovie = 0
+        this.store.responseNumberSeries = 0
         //get genres movies
         axios.get(`https://api.themoviedb.org/3/genre/movie/list`, {
           params:{
@@ -84,7 +95,7 @@ import { resolveDirective } from 'vue';
           this.store.genresMovieArray = res.data.genres
         });
 
-                //get genres series
+        //get genres series
         axios.get(`https://api.themoviedb.org/3/genre/tv/list`, {
           params:{
             api_key: this.store.requestKey,
@@ -93,7 +104,28 @@ import { resolveDirective } from 'vue';
         .then(res =>{
           this.store.genresSeriesArray = res.data.genres
         });
-        
+       
+        //get racomanded movie
+        axios.get(`https://api.themoviedb.org/3/movie/now_playing`, {
+          params:{
+            api_key: this.store.requestKey,
+          }
+        })
+        .then(res =>{
+          this.store.moviesArray = res.data.results
+          this.store.responseNumberMovie = res.data.results.length
+        });
+
+        //get racomanded series
+        axios.get(`https://api.themoviedb.org/3/tv/on_the_air`, {
+          params:{
+            api_key: this.store.requestKey,
+          }
+        })
+        .then(res =>{
+          this.store.seriesArray = res.data.results
+          this.store.responseNumberSeries = res.data.results.length
+        });     
       }
   }
 

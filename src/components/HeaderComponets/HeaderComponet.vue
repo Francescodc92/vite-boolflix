@@ -96,6 +96,11 @@ export default{
 header{
   height: $header-height;
   background-color: #231E1F;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9;
   .container-fluid{
     display: flex;
     align-items: center;

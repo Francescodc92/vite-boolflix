@@ -43,8 +43,8 @@ export default {
     },
     openInfoModal(){
       this.newMovieObj.moreInfo = !this.newMovieObj.moreInfo;
-      this.store.modalIsOpen = true;
       this.getMoreData()
+      this.store.modalIsOpen = true;
     },
     closeInfoModal(){
       this.newMovieObj.moreInfo = false;
